@@ -1,0 +1,281 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateFieldInput {
+  acre: String!
+  imageUrl: String!
+  name: String!
+}
+
+input CreateManyFieldsInput {
+  """Array of records to create"""
+  fields: [CreateFieldInput!]!
+}
+
+input CreateOneFieldInput {
+  """The record to create"""
+  field: CreateFieldInput!
+}
+
+input DateFieldComparison {
+  between: DateFieldComparisonBetween
+  eq: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  is: Boolean
+  isNot: Boolean
+  lt: DateTime
+  lte: DateTime
+  neq: DateTime
+  notBetween: DateFieldComparisonBetween
+  notIn: [DateTime!]
+}
+
+input DateFieldComparisonBetween {
+  lower: DateTime!
+  upper: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input DeleteManyFieldsInput {
+  """Filter to find records to delete"""
+  filter: FieldDeleteFilter!
+}
+
+type DeleteManyResponse {
+  """The number of records deleted."""
+  deletedCount: Int!
+}
+
+input DeleteOneFieldInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+type Field {
+  acre: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: String!
+  imageUrl: String!
+  name: String!
+  updatedAt: DateTime!
+}
+
+type FieldAggregateGroupBy {
+  acre: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  imageUrl: String
+  name: String
+  updatedAt: DateTime
+}
+
+type FieldConnection {
+  """Array of nodes."""
+  nodes: [Field!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type FieldCountAggregate {
+  acre: Int
+  createdAt: Int
+  deletedAt: Int
+  id: Int
+  imageUrl: Int
+  name: Int
+  updatedAt: Int
+}
+
+input FieldDeleteFilter {
+  acre: StringFieldComparison
+  and: [FieldDeleteFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  imageUrl: StringFieldComparison
+  name: StringFieldComparison
+  or: [FieldDeleteFilter!]
+  updatedAt: DateFieldComparison
+}
+
+type FieldDeleteResponse {
+  acre: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  imageUrl: String
+  name: String
+  updatedAt: DateTime
+}
+
+input FieldFilter {
+  acre: StringFieldComparison
+  and: [FieldFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  imageUrl: StringFieldComparison
+  name: StringFieldComparison
+  or: [FieldFilter!]
+  updatedAt: DateFieldComparison
+}
+
+type FieldMaxAggregate {
+  acre: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  imageUrl: String
+  name: String
+  updatedAt: DateTime
+}
+
+type FieldMinAggregate {
+  acre: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  imageUrl: String
+  name: String
+  updatedAt: DateTime
+}
+
+input FieldSort {
+  direction: SortDirection!
+  field: FieldSortFields!
+  nulls: SortNulls
+}
+
+enum FieldSortFields {
+  acre
+  createdAt
+  deletedAt
+  id
+  imageUrl
+  name
+  updatedAt
+}
+
+input FieldUpdateFilter {
+  acre: StringFieldComparison
+  and: [FieldUpdateFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  imageUrl: StringFieldComparison
+  name: StringFieldComparison
+  or: [FieldUpdateFilter!]
+  updatedAt: DateFieldComparison
+}
+
+type Mutation {
+  createManyFields(input: CreateManyFieldsInput!): [Field!]!
+  createOneField(input: CreateOneFieldInput!): Field!
+  deleteManyFields(input: DeleteManyFieldsInput!): DeleteManyResponse!
+  deleteOneField(input: DeleteOneFieldInput!): FieldDeleteResponse!
+  updateManyFields(input: UpdateManyFieldsInput!): UpdateManyResponse!
+  updateOneField(input: UpdateOneFieldInput!): Field!
+}
+
+type OffsetPageInfo {
+  """true if paging forward and there are more records."""
+  hasNextPage: Boolean
+
+  """true if paging backwards and there are more records."""
+  hasPreviousPage: Boolean
+}
+
+input OffsetPaging {
+  """Limit the number of records returned"""
+  limit: Int
+
+  """Offset to start returning records from"""
+  offset: Int
+}
+
+type Query {
+  field(
+    """The id of the record to find."""
+    id: ID!
+  ): Field
+  fields(
+    """Specify to filter the records returned."""
+    filter: FieldFilter = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [FieldSort!] = []
+  ): FieldConnection!
+}
+
+"""Sort Directions"""
+enum SortDirection {
+  ASC
+  DESC
+}
+
+"""Sort Nulls Options"""
+enum SortNulls {
+  NULLS_FIRST
+  NULLS_LAST
+}
+
+input StringFieldComparison {
+  eq: String
+  gt: String
+  gte: String
+  iLike: String
+  in: [String!]
+  is: Boolean
+  isNot: Boolean
+  like: String
+  lt: String
+  lte: String
+  neq: String
+  notILike: String
+  notIn: [String!]
+  notLike: String
+}
+
+input UpdateFieldInput {
+  acre: String
+  id: ID
+  imageUrl: String
+  name: String
+}
+
+input UpdateManyFieldsInput {
+  """Filter used to find fields to update"""
+  filter: FieldUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateFieldInput!
+}
+
+type UpdateManyResponse {
+  """The number of records updated."""
+  updatedCount: Int!
+}
+
+input UpdateOneFieldInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateFieldInput!
+}
