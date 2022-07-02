@@ -8,14 +8,32 @@ input CreateFieldInput {
   name: String!
 }
 
+input CreateInventoryInput {
+  amount: String!
+  name: String!
+  provider: String!
+  storage: String!
+  value: String
+}
+
 input CreateManyFieldsInput {
   """Array of records to create"""
   fields: [CreateFieldInput!]!
 }
 
+input CreateManyInventoriesInput {
+  """Array of records to create"""
+  inventories: [CreateInventoryInput!]!
+}
+
 input CreateOneFieldInput {
   """The record to create"""
   field: CreateFieldInput!
+}
+
+input CreateOneInventoryInput {
+  """The record to create"""
+  inventory: CreateInventoryInput!
 }
 
 input DateFieldComparison {
@@ -48,12 +66,22 @@ input DeleteManyFieldsInput {
   filter: FieldDeleteFilter!
 }
 
+input DeleteManyInventoriesInput {
+  """Filter to find records to delete"""
+  filter: InventoryDeleteFilter!
+}
+
 type DeleteManyResponse {
   """The number of records deleted."""
   deletedCount: Int!
 }
 
 input DeleteOneFieldInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneInventoryInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -181,13 +209,162 @@ input FieldUpdateFilter {
   updatedAt: DateFieldComparison
 }
 
+type Inventory {
+  amount: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: String!
+  name: String!
+  provider: String!
+  storage: String!
+  updatedAt: DateTime!
+  value: String
+}
+
+type InventoryAggregateGroupBy {
+  amount: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  provider: String
+  storage: String
+  updatedAt: DateTime
+  value: String
+}
+
+type InventoryConnection {
+  """Array of nodes."""
+  nodes: [Inventory!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type InventoryCountAggregate {
+  amount: Int
+  createdAt: Int
+  deletedAt: Int
+  id: Int
+  name: Int
+  provider: Int
+  storage: Int
+  updatedAt: Int
+  value: Int
+}
+
+input InventoryDeleteFilter {
+  amount: StringFieldComparison
+  and: [InventoryDeleteFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [InventoryDeleteFilter!]
+  provider: StringFieldComparison
+  storage: StringFieldComparison
+  updatedAt: DateFieldComparison
+  value: StringFieldComparison
+}
+
+type InventoryDeleteResponse {
+  amount: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  provider: String
+  storage: String
+  updatedAt: DateTime
+  value: String
+}
+
+input InventoryFilter {
+  amount: StringFieldComparison
+  and: [InventoryFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [InventoryFilter!]
+  provider: StringFieldComparison
+  storage: StringFieldComparison
+  updatedAt: DateFieldComparison
+  value: StringFieldComparison
+}
+
+type InventoryMaxAggregate {
+  amount: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  provider: String
+  storage: String
+  updatedAt: DateTime
+  value: String
+}
+
+type InventoryMinAggregate {
+  amount: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  provider: String
+  storage: String
+  updatedAt: DateTime
+  value: String
+}
+
+input InventorySort {
+  direction: SortDirection!
+  field: InventorySortFields!
+  nulls: SortNulls
+}
+
+enum InventorySortFields {
+  amount
+  createdAt
+  deletedAt
+  id
+  name
+  provider
+  storage
+  updatedAt
+  value
+}
+
+input InventoryUpdateFilter {
+  amount: StringFieldComparison
+  and: [InventoryUpdateFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [InventoryUpdateFilter!]
+  provider: StringFieldComparison
+  storage: StringFieldComparison
+  updatedAt: DateFieldComparison
+  value: StringFieldComparison
+}
+
 type Mutation {
   createManyFields(input: CreateManyFieldsInput!): [Field!]!
+  createManyInventories(input: CreateManyInventoriesInput!): [Inventory!]!
   createOneField(input: CreateOneFieldInput!): Field!
+  createOneInventory(input: CreateOneInventoryInput!): Inventory!
   deleteManyFields(input: DeleteManyFieldsInput!): DeleteManyResponse!
+  deleteManyInventories(input: DeleteManyInventoriesInput!): DeleteManyResponse!
   deleteOneField(input: DeleteOneFieldInput!): FieldDeleteResponse!
+  deleteOneInventory(input: DeleteOneInventoryInput!): InventoryDeleteResponse!
   updateManyFields(input: UpdateManyFieldsInput!): UpdateManyResponse!
+  updateManyInventories(input: UpdateManyInventoriesInput!): UpdateManyResponse!
   updateOneField(input: UpdateOneFieldInput!): Field!
+  updateOneInventory(input: UpdateOneInventoryInput!): Inventory!
 }
 
 type OffsetPageInfo {
@@ -221,6 +398,20 @@ type Query {
     """Specify to sort results."""
     sorting: [FieldSort!] = []
   ): FieldConnection!
+  inventories(
+    """Specify to filter the records returned."""
+    filter: InventoryFilter = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [InventorySort!] = []
+  ): InventoryConnection!
+  inventory(
+    """The id of the record to find."""
+    id: ID!
+  ): Inventory
 }
 
 """Sort Directions"""
@@ -259,12 +450,29 @@ input UpdateFieldInput {
   name: String
 }
 
+input UpdateInventoryInput {
+  amount: String
+  id: ID
+  name: String
+  provider: String
+  storage: String
+  value: String
+}
+
 input UpdateManyFieldsInput {
   """Filter used to find fields to update"""
   filter: FieldUpdateFilter!
 
   """The update to apply to all records found using the filter"""
   update: UpdateFieldInput!
+}
+
+input UpdateManyInventoriesInput {
+  """Filter used to find fields to update"""
+  filter: InventoryUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateInventoryInput!
 }
 
 type UpdateManyResponse {
@@ -278,4 +486,12 @@ input UpdateOneFieldInput {
 
   """The update to apply."""
   update: UpdateFieldInput!
+}
+
+input UpdateOneInventoryInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateInventoryInput!
 }
