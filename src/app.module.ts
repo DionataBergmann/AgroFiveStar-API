@@ -5,6 +5,7 @@ import { join } from 'path';
 import { AppService } from './app.service';
 import { FieldsModule } from './modules/fields/fields.module';
 import { ImageModule } from './modules/images/image.module';
+import { InventorysModule } from './modules/inventory/inventory.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ImageModule } from './modules/images/image.module';
     }),
     TypeOrmModule.forRoot(),
     FieldsModule,
+    InventorysModule,
     ImageModule,
   ],
   providers: [AppService],
