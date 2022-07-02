@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { FieldsModule } from './modules/fields/fields.module';
 import { ImageModule } from './modules/images/image.module';
 import { InventorysModule } from './modules/inventory/inventory.module';
+import { ProductionModule } from './modules/production/production.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { InventorysModule } from './modules/inventory/inventory.module';
     TypeOrmModule.forRoot(),
     FieldsModule,
     InventorysModule,
+    ProductionModule,
     ImageModule,
   ],
   providers: [AppService],
