@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AuthInput {
+  email: String!
+  password: String!
+}
+
+type AuthType {
+  token: String!
+  user: User!
+}
+
 input CreateFieldInput {
   acre: String!
   imageUrl: String!
@@ -26,6 +36,16 @@ input CreateManyInventoriesInput {
   inventories: [CreateInventoryInput!]!
 }
 
+input CreateManyProductionsInput {
+  """Array of records to create"""
+  productions: [CreateProductionInput!]!
+}
+
+input CreateManyUsersInput {
+  """Array of records to create"""
+  users: [CreateUserInput!]!
+}
+
 input CreateOneFieldInput {
   """The record to create"""
   field: CreateFieldInput!
@@ -34,6 +54,30 @@ input CreateOneFieldInput {
 input CreateOneInventoryInput {
   """The record to create"""
   inventory: CreateInventoryInput!
+}
+
+input CreateOneProductionInput {
+  """The record to create"""
+  production: CreateProductionInput!
+}
+
+input CreateOneUserInput {
+  """The record to create"""
+  user: CreateUserInput!
+}
+
+input CreateProductionInput {
+  amount: String!
+  name: String!
+}
+
+input CreateUserInput {
+  CPF: String!
+  email: String!
+  isActive: Boolean
+  name: String!
+  password: String
+  telephone: String!
 }
 
 input DateFieldComparison {
@@ -71,9 +115,19 @@ input DeleteManyInventoriesInput {
   filter: InventoryDeleteFilter!
 }
 
+input DeleteManyProductionsInput {
+  """Filter to find records to delete"""
+  filter: ProductionDeleteFilter!
+}
+
 type DeleteManyResponse {
   """The number of records deleted."""
   deletedCount: Int!
+}
+
+input DeleteManyUsersInput {
+  """Filter to find records to delete"""
+  filter: UserDeleteFilter!
 }
 
 input DeleteOneFieldInput {
@@ -82,6 +136,16 @@ input DeleteOneFieldInput {
 }
 
 input DeleteOneInventoryInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneProductionInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneUserInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -355,16 +419,29 @@ input InventoryUpdateFilter {
 type Mutation {
   createManyFields(input: CreateManyFieldsInput!): [Field!]!
   createManyInventories(input: CreateManyInventoriesInput!): [Inventory!]!
+  createManyProductions(input: CreateManyProductionsInput!): [Production!]!
+  createManyUsers(input: CreateManyUsersInput!): [User!]!
   createOneField(input: CreateOneFieldInput!): Field!
   createOneInventory(input: CreateOneInventoryInput!): Inventory!
+  createOneProduction(input: CreateOneProductionInput!): Production!
+  createOneUser(input: CreateOneUserInput!): User!
   deleteManyFields(input: DeleteManyFieldsInput!): DeleteManyResponse!
   deleteManyInventories(input: DeleteManyInventoriesInput!): DeleteManyResponse!
+  deleteManyProductions(input: DeleteManyProductionsInput!): DeleteManyResponse!
+  deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
   deleteOneField(input: DeleteOneFieldInput!): FieldDeleteResponse!
   deleteOneInventory(input: DeleteOneInventoryInput!): InventoryDeleteResponse!
+  deleteOneProduction(input: DeleteOneProductionInput!): ProductionDeleteResponse!
+  deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
+  loginUser(data: AuthInput!): AuthType!
   updateManyFields(input: UpdateManyFieldsInput!): UpdateManyResponse!
   updateManyInventories(input: UpdateManyInventoriesInput!): UpdateManyResponse!
+  updateManyProductions(input: UpdateManyProductionsInput!): UpdateManyResponse!
+  updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
   updateOneField(input: UpdateOneFieldInput!): Field!
   updateOneInventory(input: UpdateOneInventoryInput!): Inventory!
+  updateOneProduction(input: UpdateOneProductionInput!): Production!
+  updateOneUser(input: UpdateOneUserInput!): User!
 }
 
 type OffsetPageInfo {
@@ -383,6 +460,119 @@ input OffsetPaging {
   offset: Int
 }
 
+type Production {
+  amount: String!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: String!
+  name: String!
+  updatedAt: DateTime!
+}
+
+type ProductionAggregateGroupBy {
+  amount: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  updatedAt: DateTime
+}
+
+type ProductionConnection {
+  """Array of nodes."""
+  nodes: [Production!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type ProductionCountAggregate {
+  amount: Int
+  createdAt: Int
+  deletedAt: Int
+  id: Int
+  name: Int
+  updatedAt: Int
+}
+
+input ProductionDeleteFilter {
+  amount: StringFieldComparison
+  and: [ProductionDeleteFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [ProductionDeleteFilter!]
+  updatedAt: DateFieldComparison
+}
+
+type ProductionDeleteResponse {
+  amount: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  updatedAt: DateTime
+}
+
+input ProductionFilter {
+  amount: StringFieldComparison
+  and: [ProductionFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [ProductionFilter!]
+  updatedAt: DateFieldComparison
+}
+
+type ProductionMaxAggregate {
+  amount: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  updatedAt: DateTime
+}
+
+type ProductionMinAggregate {
+  amount: String
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  updatedAt: DateTime
+}
+
+input ProductionSort {
+  direction: SortDirection!
+  field: ProductionSortFields!
+  nulls: SortNulls
+}
+
+enum ProductionSortFields {
+  amount
+  createdAt
+  deletedAt
+  id
+  name
+  updatedAt
+}
+
+input ProductionUpdateFilter {
+  amount: StringFieldComparison
+  and: [ProductionUpdateFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [ProductionUpdateFilter!]
+  updatedAt: DateFieldComparison
+}
+
 type Query {
   field(
     """The id of the record to find."""
@@ -398,6 +588,8 @@ type Query {
     """Specify to sort results."""
     sorting: [FieldSort!] = []
   ): FieldConnection!
+  getOneUser(id: String!): User!
+  getUserByEmail(email: String): User!
   inventories(
     """Specify to filter the records returned."""
     filter: InventoryFilter = {}
@@ -412,6 +604,35 @@ type Query {
     """The id of the record to find."""
     id: ID!
   ): Inventory
+  me: User!
+  production(
+    """The id of the record to find."""
+    id: ID!
+  ): Production
+  productions(
+    """Specify to filter the records returned."""
+    filter: ProductionFilter = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [ProductionSort!] = []
+  ): ProductionConnection!
+  user(
+    """The id of the record to find."""
+    id: ID!
+  ): User
+  users(
+    """Specify to filter the records returned."""
+    filter: UserFilter = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [UserSort!] = []
+  ): UserConnection!
 }
 
 """Sort Directions"""
@@ -475,9 +696,25 @@ input UpdateManyInventoriesInput {
   update: UpdateInventoryInput!
 }
 
+input UpdateManyProductionsInput {
+  """Filter used to find fields to update"""
+  filter: ProductionUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateProductionInput!
+}
+
 type UpdateManyResponse {
   """The number of records updated."""
   updatedCount: Int!
+}
+
+input UpdateManyUsersInput {
+  """Filter used to find fields to update"""
+  filter: UserUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateUserInput!
 }
 
 input UpdateOneFieldInput {
@@ -494,4 +731,131 @@ input UpdateOneInventoryInput {
 
   """The update to apply."""
   update: UpdateInventoryInput!
+}
+
+input UpdateOneProductionInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateProductionInput!
+}
+
+input UpdateOneUserInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateUserInput!
+}
+
+input UpdateProductionInput {
+  amount: String
+  id: ID
+  name: String
+}
+
+input UpdateUserInput {
+  CPF: String
+  email: String
+  id: ID
+  isActive: Boolean
+  name: String
+  password: String
+  telephone: String
+}
+
+type User {
+  CPF: String!
+  email: String!
+  id: String!
+  name: String!
+  telephone: String!
+}
+
+type UserAggregateGroupBy {
+  CPF: String
+  email: String
+  name: String
+  telephone: String
+}
+
+type UserConnection {
+  """Array of nodes."""
+  nodes: [User!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type UserCountAggregate {
+  CPF: Int
+  email: Int
+  name: Int
+  telephone: Int
+}
+
+input UserDeleteFilter {
+  CPF: StringFieldComparison
+  and: [UserDeleteFilter!]
+  email: StringFieldComparison
+  name: StringFieldComparison
+  or: [UserDeleteFilter!]
+  telephone: StringFieldComparison
+}
+
+type UserDeleteResponse {
+  CPF: String
+  email: String
+  id: String
+  name: String
+  telephone: String
+}
+
+input UserFilter {
+  CPF: StringFieldComparison
+  and: [UserFilter!]
+  email: StringFieldComparison
+  name: StringFieldComparison
+  or: [UserFilter!]
+  telephone: StringFieldComparison
+}
+
+type UserMaxAggregate {
+  CPF: String
+  email: String
+  name: String
+  telephone: String
+}
+
+type UserMinAggregate {
+  CPF: String
+  email: String
+  name: String
+  telephone: String
+}
+
+input UserSort {
+  direction: SortDirection!
+  field: UserSortFields!
+  nulls: SortNulls
+}
+
+enum UserSortFields {
+  CPF
+  email
+  name
+  telephone
+}
+
+input UserUpdateFilter {
+  CPF: StringFieldComparison
+  and: [UserUpdateFilter!]
+  email: StringFieldComparison
+  name: StringFieldComparison
+  or: [UserUpdateFilter!]
+  telephone: StringFieldComparison
 }
