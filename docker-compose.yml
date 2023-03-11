@@ -5,7 +5,7 @@ services:
     image: "postgres:11.5"
     environment:
       - "POSTGRES_USER=test"
-      - "POSTGRES_DB=agrofivestar"
+      - "POSTGRES_DB=agrofivestar_db"
       - "POSTGRES_PASSWORD=test"
     expose:
       - "5432"
