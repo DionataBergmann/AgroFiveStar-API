@@ -1,6 +1,6 @@
 import { BaseEntity } from 'src/modules/base/entities/base.entity';
-
-import { Column, Entity } from 'typeorm';
+import { Field } from 'src/modules/fields/entities/field.entity';
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 
 @Entity()
 export class Production extends BaseEntity {
@@ -8,5 +8,12 @@ export class Production extends BaseEntity {
   name: string;
 
   @Column()
-  amount: string;
+  amount: number;
+
+  @ManyToMany(() => Field, (fields) => fields.productions, {
+    nullable: true,
+    cascade: true,
+  })
+  @JoinTable()
+  fields: Field;
 }

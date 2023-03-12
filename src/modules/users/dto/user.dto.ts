@@ -6,16 +6,16 @@ export class UserDTO {
   @Field()
   id: string;
 
-  @FilterableField()
+  @FilterableField({ nullable: false })
   name: string;
 
-  @FilterableField()
+  @FilterableField({ nullable: true })
   CPF: string;
 
-  @FilterableField()
+  @FilterableField({ nullable: false })
   email: string;
 
-  @FilterableField()
+  @FilterableField({ nullable: true })
   telephone: string;
 
   @HideField()
