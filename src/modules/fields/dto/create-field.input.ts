@@ -8,8 +8,8 @@ export class CreateFieldInput {
   @Field()
   @IsNumber()
   @IsPositive()
-  acre: string;
+  acre: number;
 
-  @Field()
-  imageUrl: string;
+  @Field({ nullable: true })
+  imagePath: string;
 }
