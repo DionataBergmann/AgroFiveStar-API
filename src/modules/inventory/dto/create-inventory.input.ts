@@ -1,5 +1,7 @@
 import { InputType, Field } from '@nestjs/graphql';
+
 import { IsNumber, IsPositive } from 'class-validator';
+import { UpdateFieldInput } from 'src/modules/fields/dto/update-field.input';
 @InputType()
 export class CreateInventoryInput {
   @Field()
@@ -14,10 +16,13 @@ export class CreateInventoryInput {
   @Field()
   @IsNumber()
   @IsPositive()
-  amount: string;
+  amount: number;
 
   @Field({ nullable: true })
   @IsNumber()
   @IsPositive()
-  value?: string;
+  value?: number;
+
+  @Field(() => [UpdateFieldInput], { nullable: true })
+  fields: UpdateFieldInput;
 }
