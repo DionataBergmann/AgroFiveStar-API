@@ -5,21 +5,21 @@ import { BaseEntity } from 'src/modules/base/entities/base.entity';
 
 @Entity()
 export class User extends BaseEntity {
-  @Column()
+  @Column({ nullable: false })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   CPF: string;
 
-  @Column()
+  @Column({ nullable: false })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   telephone: string;
 
   @Column({
     transformer: hashPasswordTransform,
-    nullable: true,
+    nullable: false,
   })
   password?: string;
 }
