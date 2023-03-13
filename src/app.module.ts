@@ -15,6 +15,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
 import { FileController } from './modules/files/controllers/file.controller';
 import { graphqlUploadExpress } from 'graphql-upload';
+import { TaskModule } from './modules/tasks/tasks.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
@@ -30,6 +31,7 @@ import { graphqlUploadExpress } from 'graphql-upload';
     InventorysModule,
     ProductionModule,
     UsersModule,
+    TaskModule,
     AuthModule,
   ],
   controllers: [AppController, FileController],
