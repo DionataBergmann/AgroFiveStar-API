@@ -55,6 +55,11 @@ input CreateManyProductionsInput {
   productions: [CreateProductionInput!]!
 }
 
+input CreateManyTasksInput {
+  """Array of records to create"""
+  tasks: [CreateTaskInput!]!
+}
+
 input CreateManyUsersInput {
   """Array of records to create"""
   users: [CreateUserInput!]!
@@ -75,6 +80,11 @@ input CreateOneProductionInput {
   production: CreateProductionInput!
 }
 
+input CreateOneTaskInput {
+  """The record to create"""
+  task: CreateTaskInput!
+}
+
 input CreateOneUserInput {
   """The record to create"""
   user: CreateUserInput!
@@ -84,6 +94,11 @@ input CreateProductionInput {
   amount: Float!
   fields: [UpdateFieldInput!]
   name: String!
+}
+
+input CreateTaskInput {
+  description: String!
+  title: String!
 }
 
 input CreateUserInput {
@@ -139,6 +154,11 @@ type DeleteManyResponse {
   deletedCount: Int!
 }
 
+input DeleteManyTasksInput {
+  """Filter to find records to delete"""
+  filter: TaskDeleteFilter!
+}
+
 input DeleteManyUsersInput {
   """Filter to find records to delete"""
   filter: UserDeleteFilter!
@@ -160,6 +180,11 @@ input DeleteOneInventoryInput {
 }
 
 input DeleteOneProductionInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneTaskInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -627,20 +652,24 @@ type Mutation {
   createManyFiles(input: CreateManyFilesInput!): [File!]!
   createManyInventories(input: CreateManyInventoriesInput!): [Inventory!]!
   createManyProductions(input: CreateManyProductionsInput!): [Production!]!
+  createManyTasks(input: CreateManyTasksInput!): [Task!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
   createOneField(data: CreateFieldInput!, fieldImage: Upload): Field!
   createOneFile(input: CreateOneFileInput!): File!
   createOneInventory(input: CreateOneInventoryInput!): Inventory!
   createOneProduction(input: CreateOneProductionInput!): Production!
+  createOneTask(input: CreateOneTaskInput!): Task!
   createOneUser(input: CreateOneUserInput!): User!
   deleteManyFiles(input: DeleteManyFilesInput!): DeleteManyResponse!
   deleteManyInventories(input: DeleteManyInventoriesInput!): DeleteManyResponse!
   deleteManyProductions(input: DeleteManyProductionsInput!): DeleteManyResponse!
+  deleteManyTasks(input: DeleteManyTasksInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
   deleteOneFieldAndForget(id: String!): Field!
   deleteOneFile(input: DeleteOneFileInput!): FileDeleteResponse!
   deleteOneInventory(input: DeleteOneInventoryInput!): InventoryDeleteResponse!
   deleteOneProduction(input: DeleteOneProductionInput!): ProductionDeleteResponse!
+  deleteOneTask(input: DeleteOneTaskInput!): TaskDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   deletePhysicalFile(id: String!): Boolean!
   loginUser(data: AuthInput!): AuthType!
@@ -657,11 +686,13 @@ type Mutation {
   updateManyFiles(input: UpdateManyFilesInput!): UpdateManyResponse!
   updateManyInventories(input: UpdateManyInventoriesInput!): UpdateManyResponse!
   updateManyProductions(input: UpdateManyProductionsInput!): UpdateManyResponse!
+  updateManyTasks(input: UpdateManyTasksInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
   updateOneField(data: UpdateFieldInput!, fieldImage: Upload, id: String!): Field!
   updateOneFile(input: UpdateOneFileInput!): File!
   updateOneInventory(input: UpdateOneInventoryInput!): Inventory!
   updateOneProduction(input: UpdateOneProductionInput!): Production!
+  updateOneTask(input: UpdateOneTaskInput!): Task!
   updateOneUser(input: UpdateOneUserInput!): User!
 }
 
@@ -900,6 +931,20 @@ type Query {
     """Specify to sort results."""
     sorting: [ProductionSort!]! = []
   ): ProductionConnection!
+  task(
+    """The id of the record to find."""
+    id: ID!
+  ): Task
+  tasks(
+    """Specify to filter the records returned."""
+    filter: TaskFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [TaskSort!]! = []
+  ): TaskConnection!
   user(
     """The id of the record to find."""
     id: ID!
@@ -1033,6 +1078,119 @@ type Subscription {
   updatedOneField(input: UpdateOneFieldSubscriptionFilterInput): Field!
 }
 
+type Task {
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  description: String!
+  id: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type TaskAggregateGroupBy {
+  createdAt: DateTime
+  deletedAt: DateTime
+  description: String
+  id: String
+  title: String
+  updatedAt: DateTime
+}
+
+type TaskConnection {
+  """Array of nodes."""
+  nodes: [Task!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type TaskCountAggregate {
+  createdAt: Int
+  deletedAt: Int
+  description: Int
+  id: Int
+  title: Int
+  updatedAt: Int
+}
+
+input TaskDeleteFilter {
+  and: [TaskDeleteFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  description: StringFieldComparison
+  id: StringFieldComparison
+  or: [TaskDeleteFilter!]
+  title: StringFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+type TaskDeleteResponse {
+  createdAt: DateTime
+  deletedAt: DateTime
+  description: String
+  id: String
+  title: String
+  updatedAt: DateTime
+}
+
+input TaskFilter {
+  and: [TaskFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  description: StringFieldComparison
+  id: StringFieldComparison
+  or: [TaskFilter!]
+  title: StringFieldComparison
+  updatedAt: DateFieldComparison
+}
+
+type TaskMaxAggregate {
+  createdAt: DateTime
+  deletedAt: DateTime
+  description: String
+  id: String
+  title: String
+  updatedAt: DateTime
+}
+
+type TaskMinAggregate {
+  createdAt: DateTime
+  deletedAt: DateTime
+  description: String
+  id: String
+  title: String
+  updatedAt: DateTime
+}
+
+input TaskSort {
+  direction: SortDirection!
+  field: TaskSortFields!
+  nulls: SortNulls
+}
+
+enum TaskSortFields {
+  createdAt
+  deletedAt
+  description
+  id
+  title
+  updatedAt
+}
+
+input TaskUpdateFilter {
+  and: [TaskUpdateFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  description: StringFieldComparison
+  id: StringFieldComparison
+  or: [TaskUpdateFilter!]
+  title: StringFieldComparison
+  updatedAt: DateFieldComparison
+}
+
 input UpdateFieldInput {
   acre: Float
   id: ID
@@ -1087,6 +1245,14 @@ type UpdateManyResponse {
   updatedCount: Int!
 }
 
+input UpdateManyTasksInput {
+  """Filter used to find fields to update"""
+  filter: TaskUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateTaskInput!
+}
+
 input UpdateManyUsersInput {
   """Filter used to find fields to update"""
   filter: UserUpdateFilter!
@@ -1124,6 +1290,14 @@ input UpdateOneProductionInput {
   update: UpdateProductionInput!
 }
 
+input UpdateOneTaskInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateTaskInput!
+}
+
 input UpdateOneUserInput {
   """The id of the record to update"""
   id: ID!
@@ -1137,6 +1311,12 @@ input UpdateProductionInput {
   fields: [UpdateFieldInput!]
   id: ID
   name: String
+}
+
+input UpdateTaskInput {
+  description: String
+  id: ID
+  title: String
 }
 
 input UpdateUserInput {
