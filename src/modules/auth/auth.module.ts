@@ -15,7 +15,7 @@ import { UsersService } from '../users/users.service';
       useFactory: () => ({
         secret: process.env.JWT_SECRET,
         signOptions: {
-          expiresIn: '30s', //tempo de espiração do token "30segundos"
+          expiresIn: '30s',
         },
       }),
     }),
