@@ -7,4 +7,13 @@ export class CreateTaskInput {
 
   @Field()
   description: string;
+
+  @Field()
+  date: Date;
+
+  @Field({ nullable: true })
+  dayOfWeek: number;
+
+  @Field({ nullable: true })
+  userName: string;
 }
