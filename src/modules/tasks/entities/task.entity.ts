@@ -8,4 +8,13 @@ export class Task extends BaseEntity {
 
   @Column()
   description: string;
+
+  @Column()
+  date: Date;
+
+  @Column({ nullable: true })
+  dayOfWeek: number;
+
+  @Column({ nullable: true })
+  userName: string;
 }

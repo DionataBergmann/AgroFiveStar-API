@@ -16,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
 import { FileController } from './modules/files/controllers/file.controller';
 import { graphqlUploadExpress } from 'graphql-upload';
 import { TaskModule } from './modules/tasks/tasks.module';
+import { RolesModule } from './modules/roles/roles.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
@@ -32,6 +33,7 @@ import { TaskModule } from './modules/tasks/tasks.module';
     ProductionModule,
     UsersModule,
     TaskModule,
+    RolesModule,
     AuthModule,
   ],
   controllers: [AppController, FileController],

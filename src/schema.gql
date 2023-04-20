@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddRolesToUserInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
 input AuthInput {
   email: String!
   password: String!
@@ -97,6 +105,8 @@ input CreateProductionInput {
 }
 
 input CreateTaskInput {
+  date: DateTime!
+  dayOfWeek: Float
   description: String!
   title: String!
 }
@@ -106,6 +116,7 @@ input CreateUserInput {
   email: String!
   name: String!
   password: String!
+  roles: [RoleInput!]!
   telephone: String
 }
 
@@ -649,6 +660,7 @@ input InventoryUpdateFilter {
 }
 
 type Mutation {
+  addRolesToUser(input: AddRolesToUserInput!): User!
   createManyFiles(input: CreateManyFilesInput!): [File!]!
   createManyInventories(input: CreateManyInventoriesInput!): [Inventory!]!
   createManyProductions(input: CreateManyProductionsInput!): [Production!]!
@@ -678,11 +690,13 @@ type Mutation {
   removeFieldsFromProduction(input: RemoveFieldsFromProductionInput!): Production!
   removeInventoriesFromField(input: RemoveInventoriesFromFieldInput!): Field!
   removeProductionsFromField(input: RemoveProductionsFromFieldInput!): Field!
+  removeRolesFromUser(input: RemoveRolesFromUserInput!): User!
   setFieldImageOnField(input: SetFieldImageOnFieldInput!): Field!
   setFieldsOnInventory(input: SetFieldsOnInventoryInput!): Inventory!
   setFieldsOnProduction(input: SetFieldsOnProductionInput!): Production!
   setInventoriesOnField(input: SetInventoriesOnFieldInput!): Field!
   setProductionsOnField(input: SetProductionsOnFieldInput!): Field!
+  setRolesOnUser(input: SetRolesOnUserInput!): User!
   updateManyFiles(input: UpdateManyFilesInput!): UpdateManyResponse!
   updateManyInventories(input: UpdateManyInventoriesInput!): UpdateManyResponse!
   updateManyProductions(input: UpdateManyProductionsInput!): UpdateManyResponse!
@@ -931,6 +945,20 @@ type Query {
     """Specify to sort results."""
     sorting: [ProductionSort!]! = []
   ): ProductionConnection!
+  role(
+    """The id of the record to find."""
+    id: ID!
+  ): Role
+  roles(
+    """Specify to filter the records returned."""
+    filter: RoleFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [RoleSort!]! = []
+  ): RoleConnection!
   task(
     """The id of the record to find."""
     id: ID!
@@ -1001,6 +1029,134 @@ input RemoveProductionsFromFieldInput {
   relationId: ID!
 }
 
+input RemoveRolesFromUserInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
+type Role {
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: String!
+  name: RolesEnum!
+  updatedAt: DateTime!
+}
+
+type RoleAggregateGroupBy {
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: RolesEnum
+  updatedAt: DateTime
+}
+
+type RoleConnection {
+  """Array of nodes."""
+  nodes: [Role!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+}
+
+type RoleCountAggregate {
+  createdAt: Int
+  deletedAt: Int
+  id: Int
+  name: Int
+  updatedAt: Int
+}
+
+input RoleFilter {
+  and: [RoleFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: RolesEnumFilterComparison
+  or: [RoleFilter!]
+  updatedAt: DateFieldComparison
+}
+
+input RoleInput {
+  id: String!
+  name: RolesEnum
+}
+
+type RoleInputDTO {
+  id: String!
+  name: RolesEnum
+}
+
+input RoleInputDTOFilter {
+  and: [RoleInputDTOFilter!]
+  name: RolesEnumFilterComparison
+  or: [RoleInputDTOFilter!]
+}
+
+input RoleInputDTOSort {
+  direction: SortDirection!
+  field: RoleInputDTOSortFields!
+  nulls: SortNulls
+}
+
+enum RoleInputDTOSortFields {
+  name
+}
+
+type RoleMaxAggregate {
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: RolesEnum
+  updatedAt: DateTime
+}
+
+type RoleMinAggregate {
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: RolesEnum
+  updatedAt: DateTime
+}
+
+input RoleSort {
+  direction: SortDirection!
+  field: RoleSortFields!
+  nulls: SortNulls
+}
+
+enum RoleSortFields {
+  createdAt
+  deletedAt
+  id
+  name
+  updatedAt
+}
+
+enum RolesEnum {
+  EMPLOYEE
+  SUPER_ADMIN
+}
+
+input RolesEnumFilterComparison {
+  eq: RolesEnum
+  gt: RolesEnum
+  gte: RolesEnum
+  iLike: RolesEnum
+  in: [RolesEnum!]
+  is: Boolean
+  isNot: Boolean
+  like: RolesEnum
+  lt: RolesEnum
+  lte: RolesEnum
+  neq: RolesEnum
+  notILike: RolesEnum
+  notIn: [RolesEnum!]
+  notLike: RolesEnum
+}
+
 input SetFieldImageOnFieldInput {
   """The id of the record."""
   id: ID!
@@ -1039,6 +1195,14 @@ input SetProductionsOnFieldInput {
 
   """The id of relation."""
   relationId: ID!
+}
+
+input SetRolesOnUserInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
 }
 
 """Sort Directions"""
@@ -1080,6 +1244,8 @@ type Subscription {
 
 type Task {
   createdAt: DateTime!
+  date: DateTime!
+  dayOfWeek: Float
   deletedAt: DateTime!
   description: String!
   id: String!
@@ -1089,11 +1255,17 @@ type Task {
 
 type TaskAggregateGroupBy {
   createdAt: DateTime
+  date: DateTime
+  dayOfWeek: Float
   deletedAt: DateTime
   description: String
   id: String
   title: String
   updatedAt: DateTime
+}
+
+type TaskAvgAggregate {
+  dayOfWeek: Float
 }
 
 type TaskConnection {
@@ -1109,6 +1281,8 @@ type TaskConnection {
 
 type TaskCountAggregate {
   createdAt: Int
+  date: Int
+  dayOfWeek: Int
   deletedAt: Int
   description: Int
   id: Int
@@ -1119,6 +1293,8 @@ type TaskCountAggregate {
 input TaskDeleteFilter {
   and: [TaskDeleteFilter!]
   createdAt: DateFieldComparison
+  date: DateFieldComparison
+  dayOfWeek: NumberFieldComparison
   deletedAt: DateFieldComparison
   description: StringFieldComparison
   id: StringFieldComparison
@@ -1129,6 +1305,8 @@ input TaskDeleteFilter {
 
 type TaskDeleteResponse {
   createdAt: DateTime
+  date: DateTime
+  dayOfWeek: Float
   deletedAt: DateTime
   description: String
   id: String
@@ -1139,6 +1317,8 @@ type TaskDeleteResponse {
 input TaskFilter {
   and: [TaskFilter!]
   createdAt: DateFieldComparison
+  date: DateFieldComparison
+  dayOfWeek: NumberFieldComparison
   deletedAt: DateFieldComparison
   description: StringFieldComparison
   id: StringFieldComparison
@@ -1149,6 +1329,8 @@ input TaskFilter {
 
 type TaskMaxAggregate {
   createdAt: DateTime
+  date: DateTime
+  dayOfWeek: Float
   deletedAt: DateTime
   description: String
   id: String
@@ -1158,6 +1340,8 @@ type TaskMaxAggregate {
 
 type TaskMinAggregate {
   createdAt: DateTime
+  date: DateTime
+  dayOfWeek: Float
   deletedAt: DateTime
   description: String
   id: String
@@ -1173,6 +1357,8 @@ input TaskSort {
 
 enum TaskSortFields {
   createdAt
+  date
+  dayOfWeek
   deletedAt
   description
   id
@@ -1180,9 +1366,15 @@ enum TaskSortFields {
   updatedAt
 }
 
+type TaskSumAggregate {
+  dayOfWeek: Float
+}
+
 input TaskUpdateFilter {
   and: [TaskUpdateFilter!]
   createdAt: DateFieldComparison
+  date: DateFieldComparison
+  dayOfWeek: NumberFieldComparison
   deletedAt: DateFieldComparison
   description: StringFieldComparison
   id: StringFieldComparison
@@ -1314,6 +1506,8 @@ input UpdateProductionInput {
 }
 
 input UpdateTaskInput {
+  date: DateTime
+  dayOfWeek: Float
   description: String
   id: ID
   title: String
@@ -1325,6 +1519,7 @@ input UpdateUserInput {
   id: ID
   name: String
   password: String
+  roles: [RoleInput!]
   telephone: String
 }
 
@@ -1336,6 +1531,13 @@ type User {
   email: String!
   id: String!
   name: String!
+  roles(
+    """Specify to filter the records returned."""
+    filter: RoleInputDTOFilter! = {}
+
+    """Specify to sort results."""
+    sorting: [RoleInputDTOSort!]! = []
+  ): [RoleInputDTO!]!
   telephone: String
 }
 
@@ -1387,7 +1589,14 @@ input UserFilter {
   email: StringFieldComparison
   name: StringFieldComparison
   or: [UserFilter!]
+  roles: UserFilterRoleInputDTOFilter
   telephone: StringFieldComparison
+}
+
+input UserFilterRoleInputDTOFilter {
+  and: [UserFilterRoleInputDTOFilter!]
+  name: RolesEnumFilterComparison
+  or: [UserFilterRoleInputDTOFilter!]
 }
 
 type UserMaxAggregate {

@@ -16,6 +16,9 @@ import { FieldsService } from './fields.service';
 import { Inventory } from '../inventory/entities/inventory.entity';
 import { Production } from '../production/entities/production.entity';
 import { File } from '../files/entities/files.entity';
+import { Roles } from '../decorator/auth-role-decorator';
+import { Role } from '../roles/entities/role.entity';
+import { RolesService } from '../roles/roles.service';
 
 @Module({
   imports: [
@@ -26,6 +29,7 @@ import { File } from '../files/entities/files.entity';
           File,
           Inventory,
           Production,
+          Role,
         ]),
       ],
 
@@ -40,6 +44,10 @@ import { File } from '../files/entities/files.entity';
           UpdateDTOClass: UpdateFieldInput,
           enableAggregate: true,
           enableSubscriptions: true,
+          decorators: [Roles('SUPER_ADMIN')],
+          read: {
+            decorators: [Roles('SUPER_ADMIN')],
+          },
           create: {
             disabled: true,
           },
@@ -53,6 +61,12 @@ import { File } from '../files/entities/files.entity';
       ],
     }),
   ],
-  providers: [FieldsService, FieldsResolver, FilesService, FilesModule],
+  providers: [
+    FieldsService,
+    FieldsResolver,
+    FilesService,
+    FilesModule,
+    RolesService,
+  ],
 })
 export class FieldsModule {}

@@ -10,11 +10,15 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { CreateUserInput } from './dto/create-user.input';
 import { UsersService } from './users.service';
 import { UsersResolver } from './users.resolver';
+import { Role } from '../roles/entities/role.entity';
+import { RolesService } from '../roles/roles.service';
+import { Roles } from '../decorator/auth-role-decorator';
 
 @Module({
   imports: [
     NestjsQueryGraphQLModule.forFeature({
-      imports: [NestjsQueryTypeOrmModule.forFeature([User])],
+      imports: [NestjsQueryTypeOrmModule.forFeature([User, Role])],
+      services: [RolesService],
       resolvers: [
         {
           DTOClass: UserDTO,
@@ -23,11 +27,12 @@ import { UsersResolver } from './users.resolver';
           UpdateDTOClass: UpdateUserInput,
           enableTotalCount: true,
           pagingStrategy: PagingStrategies.OFFSET,
+          read: { decorators: [Roles('SUPER_ADMIN')] },
         },
       ],
     }),
   ],
   exports: [UsersService],
-  providers: [UsersService, UsersResolver],
+  providers: [UsersService, UsersResolver, RolesService],
 })
 export class UsersModule {}
