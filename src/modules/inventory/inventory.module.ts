@@ -12,11 +12,14 @@ import { CreateInventoryInput } from './dto/create-inventory.input';
 import { InventoryDTO } from './dto/inventory.dto';
 import { UpdateInventoryInput } from './dto/update-inventory.input';
 import { Inventory } from './entities/inventory.entity';
+import { Storage } from '../storage/entities/storage.entity';
 
 @Module({
   imports: [
     NestjsQueryGraphQLModule.forFeature({
-      imports: [NestjsQueryTypeOrmModule.forFeature([Inventory, Field, Role])],
+      imports: [
+        NestjsQueryTypeOrmModule.forFeature([Inventory, Field, Role, Storage]),
+      ],
       resolvers: [
         {
           DTOClass: InventoryDTO,

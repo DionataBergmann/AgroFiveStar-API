@@ -1,13 +1,14 @@
 import { BaseEntity } from 'src/modules/base/entities/base.entity';
 import { Field } from 'src/modules/fields/entities/field.entity';
+import { Storage } from 'src/modules/storage/entities/storage.entity';
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 
 @Entity('inventory')
 export class Inventory extends BaseEntity {
-  @Column()
+  @Column({ nullable: true })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   storage: string;
 
   @Column()
@@ -25,4 +26,11 @@ export class Inventory extends BaseEntity {
   })
   @JoinTable()
   fields: Field;
+
+  @ManyToMany(() => Storage, (fields) => fields.inventories, {
+    nullable: true,
+    cascade: true,
+  })
+  @JoinTable()
+  storages: Storage;
 }
