@@ -17,6 +17,7 @@ import { FileController } from './modules/files/controllers/file.controller';
 import { graphqlUploadExpress } from 'graphql-upload';
 import { TaskModule } from './modules/tasks/tasks.module';
 import { RolesModule } from './modules/roles/roles.module';
+import { StorageModule } from './modules/storage/storage.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
@@ -30,6 +31,7 @@ import { RolesModule } from './modules/roles/roles.module';
     FieldsModule,
     FilesModule,
     InventorysModule,
+    StorageModule,
     ProductionModule,
     UsersModule,
     TaskModule,
