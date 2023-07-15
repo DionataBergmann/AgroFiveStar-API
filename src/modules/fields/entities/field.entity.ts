@@ -9,8 +9,11 @@ export class Field extends BaseEntity {
   @Column()
   name: string;
 
-  @Column({ type: 'integer' })
-  acre: number;
+  @Column({ nullable: true })
+  acre: string;
+
+  @Column({ nullable: true })
+  cordinates: string;
 
   @Column({ nullable: true })
   imagePath: string;
