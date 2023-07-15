@@ -5,10 +5,11 @@ export class CreateFieldInput {
   @Field()
   name: string;
 
-  @Field()
-  @IsNumber()
-  @IsPositive()
-  acre: number;
+  @Field({ nullable: true })
+  acre: string;
+
+  @Field({ nullable: true })
+  cordinates: string;
 
   @Field({ nullable: true })
   imagePath: string;

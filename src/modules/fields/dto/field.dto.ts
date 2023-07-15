@@ -24,7 +24,10 @@ export class FieldDTO extends BaseDTO {
   name: string;
 
   @FilterableField()
-  acre?: number;
+  acre?: string;
+
+  @FilterableField({ nullable: true })
+  cordinates: string;
 
   @FilterableField({ nullable: true })
   imagePath: string;

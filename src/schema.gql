@@ -21,7 +21,8 @@ type AuthType {
 }
 
 input CreateFieldInput {
-  acre: Float!
+  acre: String
+  cordinates: String
   imagePath: String
   name: String!
 }
@@ -42,9 +43,10 @@ input CreateFileInput {
 input CreateInventoryInput {
   amount: Float!
   fields: [UpdateFieldInput!]
-  name: String!
-  provider: String!
-  storage: String!
+  name: String
+  provider: String
+  storage: String
+  storages: [UpdateStorageInput!]
   value: Float
 }
 
@@ -61,6 +63,11 @@ input CreateManyInventoriesInput {
 input CreateManyProductionsInput {
   """Array of records to create"""
   productions: [CreateProductionInput!]!
+}
+
+input CreateManyStoragesInput {
+  """Array of records to create"""
+  storages: [CreateStorageInput!]!
 }
 
 input CreateManyTasksInput {
@@ -88,6 +95,11 @@ input CreateOneProductionInput {
   production: CreateProductionInput!
 }
 
+input CreateOneStorageInput {
+  """The record to create"""
+  storage: CreateStorageInput!
+}
+
 input CreateOneTaskInput {
   """The record to create"""
   task: CreateTaskInput!
@@ -104,11 +116,17 @@ input CreateProductionInput {
   name: String!
 }
 
+input CreateStorageInput {
+  amount: Float!
+  name: String!
+}
+
 input CreateTaskInput {
   date: DateTime!
   dayOfWeek: Float
   description: String!
   title: String!
+  userName: String
 }
 
 input CreateUserInput {
@@ -165,6 +183,11 @@ type DeleteManyResponse {
   deletedCount: Int!
 }
 
+input DeleteManyStoragesInput {
+  """Filter to find records to delete"""
+  filter: StorageDeleteFilter!
+}
+
 input DeleteManyTasksInput {
   """Filter to find records to delete"""
   filter: TaskDeleteFilter!
@@ -195,6 +218,11 @@ input DeleteOneProductionInput {
   id: ID!
 }
 
+input DeleteOneStorageInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
 input DeleteOneTaskInput {
   """The id of the record to delete."""
   id: ID!
@@ -206,7 +234,8 @@ input DeleteOneUserInput {
 }
 
 type Field {
-  acre: Float!
+  acre: String!
+  cordinates: String
   createdAt: DateTime!
   deletedAt: DateTime!
   fieldImage: File
@@ -219,8 +248,9 @@ type Field {
 }
 
 input FieldAggregateFilter {
-  acre: NumberFieldComparison
+  acre: StringFieldComparison
   and: [FieldAggregateFilter!]
+  cordinates: StringFieldComparison
   createdAt: DateFieldComparison
   deletedAt: DateFieldComparison
   id: StringFieldComparison
@@ -231,7 +261,8 @@ input FieldAggregateFilter {
 }
 
 type FieldAggregateGroupBy {
-  acre: Float
+  acre: String
+  cordinates: String
   createdAt: DateTime
   deletedAt: DateTime
   id: String
@@ -241,16 +272,10 @@ type FieldAggregateGroupBy {
 }
 
 type FieldAggregateResponse {
-  avg: FieldAvgAggregate
   count: FieldCountAggregate
   groupBy: FieldAggregateGroupBy
   max: FieldMaxAggregate
   min: FieldMinAggregate
-  sum: FieldSumAggregate
-}
-
-type FieldAvgAggregate {
-  acre: Float
 }
 
 type FieldConnection {
@@ -263,6 +288,7 @@ type FieldConnection {
 
 type FieldCountAggregate {
   acre: Int
+  cordinates: Int
   createdAt: Int
   deletedAt: Int
   id: Int
@@ -272,7 +298,8 @@ type FieldCountAggregate {
 }
 
 type FieldDeleteResponse {
-  acre: Float
+  acre: String
+  cordinates: String
   createdAt: DateTime
   deletedAt: DateTime
   id: String
@@ -282,8 +309,9 @@ type FieldDeleteResponse {
 }
 
 input FieldFilter {
-  acre: NumberFieldComparison
+  acre: StringFieldComparison
   and: [FieldFilter!]
+  cordinates: StringFieldComparison
   createdAt: DateFieldComparison
   deletedAt: DateFieldComparison
   fieldImage: FieldFilterFileFilter
@@ -332,7 +360,8 @@ input FieldFilterProductionFilter {
 }
 
 type FieldMaxAggregate {
-  acre: Float
+  acre: String
+  cordinates: String
   createdAt: DateTime
   deletedAt: DateTime
   id: String
@@ -342,7 +371,8 @@ type FieldMaxAggregate {
 }
 
 type FieldMinAggregate {
-  acre: Float
+  acre: String
+  cordinates: String
   createdAt: DateTime
   deletedAt: DateTime
   id: String
@@ -359,6 +389,7 @@ input FieldSort {
 
 enum FieldSortFields {
   acre
+  cordinates
   createdAt
   deletedAt
   id
@@ -368,8 +399,9 @@ enum FieldSortFields {
 }
 
 input FieldSubscriptionFilter {
-  acre: NumberFieldComparison
+  acre: StringFieldComparison
   and: [FieldSubscriptionFilter!]
+  cordinates: StringFieldComparison
   createdAt: DateFieldComparison
   deletedAt: DateFieldComparison
   id: StringFieldComparison
@@ -377,10 +409,6 @@ input FieldSubscriptionFilter {
   name: StringFieldComparison
   or: [FieldSubscriptionFilter!]
   updatedAt: DateFieldComparison
-}
-
-type FieldSumAggregate {
-  acre: Float
 }
 
 type File {
@@ -500,7 +528,8 @@ type Inventory {
   id: String!
   name: String!
   provider: String!
-  storage: String!
+  storage: String
+  storages: Storage
   updatedAt: DateTime!
   value: Float
 }
@@ -582,19 +611,32 @@ input InventoryFilter {
   or: [InventoryFilter!]
   provider: StringFieldComparison
   storage: StringFieldComparison
+  storages: InventoryFilterStorageFilter
   updatedAt: DateFieldComparison
   value: NumberFieldComparison
 }
 
 input InventoryFilterFieldFilter {
-  acre: NumberFieldComparison
+  acre: StringFieldComparison
   and: [InventoryFilterFieldFilter!]
+  cordinates: StringFieldComparison
   createdAt: DateFieldComparison
   deletedAt: DateFieldComparison
   id: StringFieldComparison
   imagePath: StringFieldComparison
   name: StringFieldComparison
   or: [InventoryFilterFieldFilter!]
+  updatedAt: DateFieldComparison
+}
+
+input InventoryFilterStorageFilter {
+  amount: NumberFieldComparison
+  and: [InventoryFilterStorageFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [InventoryFilterStorageFilter!]
   updatedAt: DateFieldComparison
 }
 
@@ -664,23 +706,27 @@ type Mutation {
   createManyFiles(input: CreateManyFilesInput!): [File!]!
   createManyInventories(input: CreateManyInventoriesInput!): [Inventory!]!
   createManyProductions(input: CreateManyProductionsInput!): [Production!]!
+  createManyStorages(input: CreateManyStoragesInput!): [Storage!]!
   createManyTasks(input: CreateManyTasksInput!): [Task!]!
   createManyUsers(input: CreateManyUsersInput!): [User!]!
   createOneField(data: CreateFieldInput!, fieldImage: Upload): Field!
   createOneFile(input: CreateOneFileInput!): File!
   createOneInventory(input: CreateOneInventoryInput!): Inventory!
   createOneProduction(input: CreateOneProductionInput!): Production!
+  createOneStorage(input: CreateOneStorageInput!): Storage!
   createOneTask(input: CreateOneTaskInput!): Task!
   createOneUser(input: CreateOneUserInput!): User!
   deleteManyFiles(input: DeleteManyFilesInput!): DeleteManyResponse!
   deleteManyInventories(input: DeleteManyInventoriesInput!): DeleteManyResponse!
   deleteManyProductions(input: DeleteManyProductionsInput!): DeleteManyResponse!
+  deleteManyStorages(input: DeleteManyStoragesInput!): DeleteManyResponse!
   deleteManyTasks(input: DeleteManyTasksInput!): DeleteManyResponse!
   deleteManyUsers(input: DeleteManyUsersInput!): DeleteManyResponse!
   deleteOneFieldAndForget(id: String!): Field!
   deleteOneFile(input: DeleteOneFileInput!): FileDeleteResponse!
   deleteOneInventory(input: DeleteOneInventoryInput!): InventoryDeleteResponse!
   deleteOneProduction(input: DeleteOneProductionInput!): ProductionDeleteResponse!
+  deleteOneStorage(input: DeleteOneStorageInput!): StorageDeleteResponse!
   deleteOneTask(input: DeleteOneTaskInput!): TaskDeleteResponse!
   deleteOneUser(input: DeleteOneUserInput!): UserDeleteResponse!
   deletePhysicalFile(id: String!): Boolean!
@@ -689,23 +735,29 @@ type Mutation {
   removeFieldsFromInventory(input: RemoveFieldsFromInventoryInput!): Inventory!
   removeFieldsFromProduction(input: RemoveFieldsFromProductionInput!): Production!
   removeInventoriesFromField(input: RemoveInventoriesFromFieldInput!): Field!
+  removeInventoriesFromStorage(input: RemoveInventoriesFromStorageInput!): Storage!
   removeProductionsFromField(input: RemoveProductionsFromFieldInput!): Field!
   removeRolesFromUser(input: RemoveRolesFromUserInput!): User!
+  removeStoragesFromInventory(input: RemoveStoragesFromInventoryInput!): Inventory!
   setFieldImageOnField(input: SetFieldImageOnFieldInput!): Field!
   setFieldsOnInventory(input: SetFieldsOnInventoryInput!): Inventory!
   setFieldsOnProduction(input: SetFieldsOnProductionInput!): Production!
   setInventoriesOnField(input: SetInventoriesOnFieldInput!): Field!
+  setInventoriesOnStorage(input: SetInventoriesOnStorageInput!): Storage!
   setProductionsOnField(input: SetProductionsOnFieldInput!): Field!
   setRolesOnUser(input: SetRolesOnUserInput!): User!
+  setStoragesOnInventory(input: SetStoragesOnInventoryInput!): Inventory!
   updateManyFiles(input: UpdateManyFilesInput!): UpdateManyResponse!
   updateManyInventories(input: UpdateManyInventoriesInput!): UpdateManyResponse!
   updateManyProductions(input: UpdateManyProductionsInput!): UpdateManyResponse!
+  updateManyStorages(input: UpdateManyStoragesInput!): UpdateManyResponse!
   updateManyTasks(input: UpdateManyTasksInput!): UpdateManyResponse!
   updateManyUsers(input: UpdateManyUsersInput!): UpdateManyResponse!
   updateOneField(data: UpdateFieldInput!, fieldImage: Upload, id: String!): Field!
   updateOneFile(input: UpdateOneFileInput!): File!
   updateOneInventory(input: UpdateOneInventoryInput!): Inventory!
   updateOneProduction(input: UpdateOneProductionInput!): Production!
+  updateOneStorage(input: UpdateOneStorageInput!): Storage!
   updateOneTask(input: UpdateOneTaskInput!): Task!
   updateOneUser(input: UpdateOneUserInput!): User!
 }
@@ -822,8 +874,9 @@ input ProductionFilter {
 }
 
 input ProductionFilterFieldFilter {
-  acre: NumberFieldComparison
+  acre: StringFieldComparison
   and: [ProductionFilterFieldFilter!]
+  cordinates: StringFieldComparison
   createdAt: DateFieldComparison
   deletedAt: DateFieldComparison
   id: StringFieldComparison
@@ -959,6 +1012,20 @@ type Query {
     """Specify to sort results."""
     sorting: [RoleSort!]! = []
   ): RoleConnection!
+  storage(
+    """The id of the record to find."""
+    id: ID!
+  ): Storage
+  storages(
+    """Specify to filter the records returned."""
+    filter: StorageFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [StorageSort!]! = []
+  ): StorageConnection!
   task(
     """The id of the record to find."""
     id: ID!
@@ -1021,6 +1088,14 @@ input RemoveInventoriesFromFieldInput {
   relationId: ID!
 }
 
+input RemoveInventoriesFromStorageInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input RemoveProductionsFromFieldInput {
   """The id of the record."""
   id: ID!
@@ -1035,6 +1110,14 @@ input RemoveRolesFromUserInput {
 
   """The ids of the relations."""
   relationIds: [ID!]!
+}
+
+input RemoveStoragesFromInventoryInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
 }
 
 type Role {
@@ -1189,6 +1272,14 @@ input SetInventoriesOnFieldInput {
   relationId: ID!
 }
 
+input SetInventoriesOnStorageInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 input SetProductionsOnFieldInput {
   """The id of the record."""
   id: ID!
@@ -1205,6 +1296,14 @@ input SetRolesOnUserInput {
   relationIds: [ID!]!
 }
 
+input SetStoragesOnInventoryInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 """Sort Directions"""
 enum SortDirection {
   ASC
@@ -1215,6 +1314,143 @@ enum SortDirection {
 enum SortNulls {
   NULLS_FIRST
   NULLS_LAST
+}
+
+type Storage {
+  amount: Float!
+  createdAt: DateTime!
+  deletedAt: DateTime!
+  id: String!
+  inventories: Inventory
+  name: String!
+  updatedAt: DateTime!
+}
+
+type StorageAggregateGroupBy {
+  amount: Float
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  updatedAt: DateTime
+}
+
+type StorageAvgAggregate {
+  amount: Float
+}
+
+type StorageConnection {
+  """Array of nodes."""
+  nodes: [Storage!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type StorageCountAggregate {
+  amount: Int
+  createdAt: Int
+  deletedAt: Int
+  id: Int
+  name: Int
+  updatedAt: Int
+}
+
+input StorageDeleteFilter {
+  amount: NumberFieldComparison
+  and: [StorageDeleteFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [StorageDeleteFilter!]
+  updatedAt: DateFieldComparison
+}
+
+type StorageDeleteResponse {
+  amount: Float
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  updatedAt: DateTime
+}
+
+input StorageFilter {
+  amount: NumberFieldComparison
+  and: [StorageFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  inventories: StorageFilterInventoryFilter
+  name: StringFieldComparison
+  or: [StorageFilter!]
+  updatedAt: DateFieldComparison
+}
+
+input StorageFilterInventoryFilter {
+  amount: NumberFieldComparison
+  and: [StorageFilterInventoryFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [StorageFilterInventoryFilter!]
+  provider: StringFieldComparison
+  storage: StringFieldComparison
+  updatedAt: DateFieldComparison
+  value: NumberFieldComparison
+}
+
+type StorageMaxAggregate {
+  amount: Float
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  updatedAt: DateTime
+}
+
+type StorageMinAggregate {
+  amount: Float
+  createdAt: DateTime
+  deletedAt: DateTime
+  id: String
+  name: String
+  updatedAt: DateTime
+}
+
+input StorageSort {
+  direction: SortDirection!
+  field: StorageSortFields!
+  nulls: SortNulls
+}
+
+enum StorageSortFields {
+  amount
+  createdAt
+  deletedAt
+  id
+  name
+  updatedAt
+}
+
+type StorageSumAggregate {
+  amount: Float
+}
+
+input StorageUpdateFilter {
+  amount: NumberFieldComparison
+  and: [StorageUpdateFilter!]
+  createdAt: DateFieldComparison
+  deletedAt: DateFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [StorageUpdateFilter!]
+  updatedAt: DateFieldComparison
 }
 
 input StringFieldComparison {
@@ -1251,6 +1487,7 @@ type Task {
   id: String!
   title: String!
   updatedAt: DateTime!
+  userName: String
 }
 
 type TaskAggregateGroupBy {
@@ -1262,6 +1499,7 @@ type TaskAggregateGroupBy {
   id: String
   title: String
   updatedAt: DateTime
+  userName: String
 }
 
 type TaskAvgAggregate {
@@ -1288,6 +1526,7 @@ type TaskCountAggregate {
   id: Int
   title: Int
   updatedAt: Int
+  userName: Int
 }
 
 input TaskDeleteFilter {
@@ -1301,6 +1540,7 @@ input TaskDeleteFilter {
   or: [TaskDeleteFilter!]
   title: StringFieldComparison
   updatedAt: DateFieldComparison
+  userName: StringFieldComparison
 }
 
 type TaskDeleteResponse {
@@ -1312,6 +1552,7 @@ type TaskDeleteResponse {
   id: String
   title: String
   updatedAt: DateTime
+  userName: String
 }
 
 input TaskFilter {
@@ -1325,6 +1566,7 @@ input TaskFilter {
   or: [TaskFilter!]
   title: StringFieldComparison
   updatedAt: DateFieldComparison
+  userName: StringFieldComparison
 }
 
 type TaskMaxAggregate {
@@ -1336,6 +1578,7 @@ type TaskMaxAggregate {
   id: String
   title: String
   updatedAt: DateTime
+  userName: String
 }
 
 type TaskMinAggregate {
@@ -1347,6 +1590,7 @@ type TaskMinAggregate {
   id: String
   title: String
   updatedAt: DateTime
+  userName: String
 }
 
 input TaskSort {
@@ -1364,6 +1608,7 @@ enum TaskSortFields {
   id
   title
   updatedAt
+  userName
 }
 
 type TaskSumAggregate {
@@ -1381,10 +1626,12 @@ input TaskUpdateFilter {
   or: [TaskUpdateFilter!]
   title: StringFieldComparison
   updatedAt: DateFieldComparison
+  userName: StringFieldComparison
 }
 
 input UpdateFieldInput {
-  acre: Float
+  acre: String
+  cordinates: String
   id: ID
   imagePath: String
   name: String
@@ -1405,6 +1652,7 @@ input UpdateInventoryInput {
   name: String
   provider: String
   storage: String
+  storages: [UpdateStorageInput!]
   value: Float
 }
 
@@ -1435,6 +1683,14 @@ input UpdateManyProductionsInput {
 type UpdateManyResponse {
   """The number of records updated."""
   updatedCount: Int!
+}
+
+input UpdateManyStoragesInput {
+  """Filter used to find fields to update"""
+  filter: StorageUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateStorageInput!
 }
 
 input UpdateManyTasksInput {
@@ -1482,6 +1738,14 @@ input UpdateOneProductionInput {
   update: UpdateProductionInput!
 }
 
+input UpdateOneStorageInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateStorageInput!
+}
+
 input UpdateOneTaskInput {
   """The id of the record to update"""
   id: ID!
@@ -1505,12 +1769,19 @@ input UpdateProductionInput {
   name: String
 }
 
+input UpdateStorageInput {
+  amount: Float
+  id: ID
+  name: String
+}
+
 input UpdateTaskInput {
   date: DateTime
   dayOfWeek: Float
   description: String
   id: ID
   title: String
+  userName: String
 }
 
 input UpdateUserInput {
