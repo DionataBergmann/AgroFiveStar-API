@@ -4,13 +4,13 @@ import { AppModule } from './src/app.module';
 import express, { Express } from 'express';
 import { ExpressAdapter } from '@nestjs/platform-express';
 
-const app: Express = express();
+const expressApp: Express = express();
 
 async function bootstrap() {
-  const nestApp = await NestFactory.create(AppModule, new ExpressAdapter(app));
+  const nestApp = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
   await nestApp.init();
+  
+  return serverless(expressApp);
 }
 
-bootstrap();
-
-module.exports.handler = serverless(app);
+module.exports.handler = bootstrap().then(handler => handler);
