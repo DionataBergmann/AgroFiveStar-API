@@ -3,7 +3,7 @@ import {
   FilterableUnPagedRelation,
 } from '@nestjs-query/query-graphql';
 import { Field, HideField, ObjectType } from '@nestjs/graphql';
-import { RoleInputDTO } from 'src/modules/roles/dto/role.dto';
+import { RoleInputDTO } from '../../roles/dto/role.dto';
 
 @ObjectType('User')
 @FilterableUnPagedRelation('roles', () => RoleInputDTO)

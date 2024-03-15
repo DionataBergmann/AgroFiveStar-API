@@ -1,7 +1,7 @@
-import { BaseEntity } from 'src/modules/base/entities/base.entity';
-import { File } from 'src/modules/files/entities/files.entity';
-import { Inventory } from 'src/modules/inventory/entities/inventory.entity';
-import { Production } from 'src/modules/production/entities/production.entity';
+import { BaseEntity } from '../../base/entities/base.entity';
+import { File } from '../../files/entities/files.entity';
+import { Inventory } from '../../inventory/entities/inventory.entity';
+import { Production } from '../../production/entities/production.entity';
 import { Column, Entity, JoinColumn, ManyToMany, OneToOne } from 'typeorm';
 
 @Entity()

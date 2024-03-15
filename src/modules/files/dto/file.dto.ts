@@ -1,6 +1,6 @@
 import { FilterableField } from '@nestjs-query/query-graphql';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { BaseDTO } from 'src/modules/base/dto/base.dto';
+import { BaseDTO } from '../../base/dto/base.dto';
 
 @ObjectType('File')
 export class FileDTO extends BaseDTO {

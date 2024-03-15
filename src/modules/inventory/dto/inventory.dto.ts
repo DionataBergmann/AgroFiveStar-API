@@ -4,9 +4,9 @@ import {
   PagingStrategies,
 } from '@nestjs-query/query-graphql';
 import { ObjectType } from '@nestjs/graphql';
-import { BaseDTO } from 'src/modules/base/dto/base.dto';
-import { FieldDTO } from 'src/modules/fields/dto/field.dto';
-import { StorageDTO } from 'src/modules/storage/dto/storage.dto';
+import { BaseDTO } from '../../base/dto/base.dto';
+import { FieldDTO } from '../../fields/dto/field.dto';
+import { StorageDTO } from '../../storage/dto/storage.dto';
 
 @ObjectType('Inventory')
 @FilterableRelation('fields', () => FieldDTO, {

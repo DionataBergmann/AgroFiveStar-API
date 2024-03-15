@@ -1,6 +1,6 @@
 import { FilterableRelation } from '@nestjs-query/query-graphql';
-import { BaseEntity } from 'src/modules/base/entities/base.entity';
-import { FieldDTO } from 'src/modules/fields/dto/field.dto';
+import { BaseEntity } from '../../base/entities/base.entity';
+import { FieldDTO } from '../../fields/dto/field.dto';
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 @FilterableRelation('fields', () => FieldDTO, { nullable: true })
