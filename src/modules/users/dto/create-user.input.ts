@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { RoleInputDTO } from '../../roles/dto/role.dto';
+import { RoleInputDTO } from 'src/modules/roles/dto/role.dto';
 
 @InputType()
 export class CreateUserInput {

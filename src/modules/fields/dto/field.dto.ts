@@ -4,10 +4,10 @@ import {
   PagingStrategies,
 } from '@nestjs-query/query-graphql';
 import { ObjectType } from '@nestjs/graphql';
-import { BaseDTO } from '../../base/dto/base.dto';
-import { FileDTO } from '../../files/dto/file.dto';
-import { InventoryDTO } from '../../inventory/dto/inventory.dto';
-import { ProductionDTO } from '../../production/dto/production.dto';
+import { BaseDTO } from 'src/modules/base/dto/base.dto';
+import { FileDTO } from 'src/modules/files/dto/file.dto';
+import { InventoryDTO } from 'src/modules/inventory/dto/inventory.dto';
+import { ProductionDTO } from 'src/modules/production/dto/production.dto';
 
 @ObjectType('Field')
 @FilterableRelation('fieldImage', () => FileDTO, { nullable: true })

@@ -1,5 +1,5 @@
-import { BaseEntity } from '../../base/entities/base.entity';
-import { Field } from '../../fields/entities/field.entity';
+import { BaseEntity } from 'src/modules/base/entities/base.entity';
+import { Field } from 'src/modules/fields/entities/field.entity';
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
 
 @Entity()

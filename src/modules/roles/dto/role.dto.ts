@@ -4,7 +4,7 @@ import { FilterableField } from '@nestjs-query/query-graphql';
 
 import { IsNotEmpty, IsString } from 'class-validator';
 import { RolesEnum } from '../roles.enum';
-import { BaseDTO } from '../../base/dto/base.dto';
+import { BaseDTO } from 'src/modules/base/dto/base.dto';
 
 @InputType('RoleInput')
 @ObjectType()
