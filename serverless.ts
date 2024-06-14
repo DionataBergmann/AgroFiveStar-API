@@ -13,4 +13,4 @@ async function bootstrap() {
 
 bootstrap();
 
-module.exports.handler = serverless(app);
+export const handler = serverless(app);
