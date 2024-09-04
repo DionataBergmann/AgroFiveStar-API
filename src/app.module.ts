@@ -18,6 +18,8 @@ import { graphqlUploadExpress } from 'graphql-upload';
 import { TaskModule } from './modules/tasks/tasks.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { StorageModule } from './modules/storage/storage.module';
+import { ChatModule } from './modules/chat/chat.module';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
@@ -39,6 +41,7 @@ import { StorageModule } from './modules/storage/storage.module';
     TaskModule,
     RolesModule,
     AuthModule,
+    ChatModule
   ],
   controllers: [AppController, FileController],
   providers: [AppService],
