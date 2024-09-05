@@ -19,6 +19,7 @@ import { TaskModule } from './modules/tasks/tasks.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { NotificationModule } from './modules/Notification/notification.module';
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { ChatModule } from './modules/chat/chat.module';
     TaskModule,
     RolesModule,
     AuthModule,
-    ChatModule
+    ChatModule,
+    NotificationModule
   ],
   controllers: [AppController, FileController],
   providers: [AppService],
