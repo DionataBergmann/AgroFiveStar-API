@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddNotificationsToUserInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
+}
+
 input AddRolesToUserInput {
   """The id of the record."""
   id: ID!
@@ -60,6 +68,11 @@ input CreateManyInventoriesInput {
   inventories: [CreateInventoryInput!]!
 }
 
+input CreateManyNotificationsInput {
+  """Array of records to create"""
+  notifications: [CreateNotification!]!
+}
+
 input CreateManyProductionsInput {
   """Array of records to create"""
   productions: [CreateProductionInput!]!
@@ -80,6 +93,13 @@ input CreateManyUsersInput {
   users: [CreateUserInput!]!
 }
 
+input CreateNotification {
+  description: String
+  id: String
+  title: String
+  userId: String
+}
+
 input CreateOneFileInput {
   """The record to create"""
   file: CreateFileInput!
@@ -88,6 +108,11 @@ input CreateOneFileInput {
 input CreateOneInventoryInput {
   """The record to create"""
   inventory: CreateInventoryInput!
+}
+
+input CreateOneNotificationInput {
+  """The record to create"""
+  notification: CreateNotification!
 }
 
 input CreateOneProductionInput {
@@ -173,6 +198,11 @@ input DeleteManyInventoriesInput {
   filter: InventoryDeleteFilter!
 }
 
+input DeleteManyNotificationsInput {
+  """Filter to find records to delete"""
+  filter: NotificationDeleteFilter!
+}
+
 input DeleteManyProductionsInput {
   """Filter to find records to delete"""
   filter: ProductionDeleteFilter!
@@ -209,6 +239,11 @@ input DeleteOneFileInput {
 }
 
 input DeleteOneInventoryInput {
+  """The id of the record to delete."""
+  id: ID!
+}
+
+input DeleteOneNotificationInput {
   """The id of the record to delete."""
   id: ID!
 }
@@ -702,9 +737,11 @@ input InventoryUpdateFilter {
 }
 
 type Mutation {
+  addNotificationsToUser(input: AddNotificationsToUserInput!): User!
   addRolesToUser(input: AddRolesToUserInput!): User!
   createManyFiles(input: CreateManyFilesInput!): [File!]!
   createManyInventories(input: CreateManyInventoriesInput!): [Inventory!]!
+  createManyNotifications(input: CreateManyNotificationsInput!): [Notification!]!
   createManyProductions(input: CreateManyProductionsInput!): [Production!]!
   createManyStorages(input: CreateManyStoragesInput!): [Storage!]!
   createManyTasks(input: CreateManyTasksInput!): [Task!]!
@@ -712,12 +749,14 @@ type Mutation {
   createOneField(data: CreateFieldInput!, fieldImage: Upload): Field!
   createOneFile(input: CreateOneFileInput!): File!
   createOneInventory(input: CreateOneInventoryInput!): Inventory!
+  createOneNotification(input: CreateOneNotificationInput!): Notification!
   createOneProduction(input: CreateOneProductionInput!): Production!
   createOneStorage(input: CreateOneStorageInput!): Storage!
   createOneTask(input: CreateOneTaskInput!): Task!
   createOneUser(input: CreateOneUserInput!): User!
   deleteManyFiles(input: DeleteManyFilesInput!): DeleteManyResponse!
   deleteManyInventories(input: DeleteManyInventoriesInput!): DeleteManyResponse!
+  deleteManyNotifications(input: DeleteManyNotificationsInput!): DeleteManyResponse!
   deleteManyProductions(input: DeleteManyProductionsInput!): DeleteManyResponse!
   deleteManyStorages(input: DeleteManyStoragesInput!): DeleteManyResponse!
   deleteManyTasks(input: DeleteManyTasksInput!): DeleteManyResponse!
@@ -725,6 +764,7 @@ type Mutation {
   deleteOneFieldAndForget(id: String!): Field!
   deleteOneFile(input: DeleteOneFileInput!): FileDeleteResponse!
   deleteOneInventory(input: DeleteOneInventoryInput!): InventoryDeleteResponse!
+  deleteOneNotification(input: DeleteOneNotificationInput!): NotificationDeleteResponse!
   deleteOneProduction(input: DeleteOneProductionInput!): ProductionDeleteResponse!
   deleteOneStorage(input: DeleteOneStorageInput!): StorageDeleteResponse!
   deleteOneTask(input: DeleteOneTaskInput!): TaskDeleteResponse!
@@ -736,6 +776,7 @@ type Mutation {
   removeFieldsFromProduction(input: RemoveFieldsFromProductionInput!): Production!
   removeInventoriesFromField(input: RemoveInventoriesFromFieldInput!): Field!
   removeInventoriesFromStorage(input: RemoveInventoriesFromStorageInput!): Storage!
+  removeNotificationsFromUser(input: RemoveNotificationsFromUserInput!): User!
   removeProductionsFromField(input: RemoveProductionsFromFieldInput!): Field!
   removeRolesFromUser(input: RemoveRolesFromUserInput!): User!
   removeStoragesFromInventory(input: RemoveStoragesFromInventoryInput!): Inventory!
@@ -744,11 +785,13 @@ type Mutation {
   setFieldsOnProduction(input: SetFieldsOnProductionInput!): Production!
   setInventoriesOnField(input: SetInventoriesOnFieldInput!): Field!
   setInventoriesOnStorage(input: SetInventoriesOnStorageInput!): Storage!
+  setNotificationsOnUser(input: SetNotificationsOnUserInput!): User!
   setProductionsOnField(input: SetProductionsOnFieldInput!): Field!
   setRolesOnUser(input: SetRolesOnUserInput!): User!
   setStoragesOnInventory(input: SetStoragesOnInventoryInput!): Inventory!
   updateManyFiles(input: UpdateManyFilesInput!): UpdateManyResponse!
   updateManyInventories(input: UpdateManyInventoriesInput!): UpdateManyResponse!
+  updateManyNotifications(input: UpdateManyNotificationsInput!): UpdateManyResponse!
   updateManyProductions(input: UpdateManyProductionsInput!): UpdateManyResponse!
   updateManyStorages(input: UpdateManyStoragesInput!): UpdateManyResponse!
   updateManyTasks(input: UpdateManyTasksInput!): UpdateManyResponse!
@@ -756,10 +799,104 @@ type Mutation {
   updateOneField(data: UpdateFieldInput!, fieldImage: Upload, id: String!): Field!
   updateOneFile(input: UpdateOneFileInput!): File!
   updateOneInventory(input: UpdateOneInventoryInput!): Inventory!
+  updateOneNotification(input: UpdateOneNotificationInput!): Notification!
   updateOneProduction(input: UpdateOneProductionInput!): Production!
   updateOneStorage(input: UpdateOneStorageInput!): Storage!
   updateOneTask(input: UpdateOneTaskInput!): Task!
   updateOneUser(input: UpdateOneUserInput!): User!
+}
+
+type Notification {
+  description: String!
+  id: String!
+  title: String!
+  userId: String!
+}
+
+type NotificationAggregateGroupBy {
+  description: String
+  id: String
+  title: String
+  userId: String
+}
+
+type NotificationConnection {
+  """Array of nodes."""
+  nodes: [Notification!]!
+
+  """Paging information"""
+  pageInfo: OffsetPageInfo!
+
+  """Fetch total count of records"""
+  totalCount: Int!
+}
+
+type NotificationCountAggregate {
+  description: Int
+  id: Int
+  title: Int
+  userId: Int
+}
+
+input NotificationDeleteFilter {
+  and: [NotificationDeleteFilter!]
+  description: StringFieldComparison
+  id: StringFieldComparison
+  or: [NotificationDeleteFilter!]
+  title: StringFieldComparison
+  userId: StringFieldComparison
+}
+
+type NotificationDeleteResponse {
+  description: String
+  id: String
+  title: String
+  userId: String
+}
+
+input NotificationFilter {
+  and: [NotificationFilter!]
+  description: StringFieldComparison
+  id: StringFieldComparison
+  or: [NotificationFilter!]
+  title: StringFieldComparison
+  userId: StringFieldComparison
+}
+
+type NotificationMaxAggregate {
+  description: String
+  id: String
+  title: String
+  userId: String
+}
+
+type NotificationMinAggregate {
+  description: String
+  id: String
+  title: String
+  userId: String
+}
+
+input NotificationSort {
+  direction: SortDirection!
+  field: NotificationSortFields!
+  nulls: SortNulls
+}
+
+enum NotificationSortFields {
+  description
+  id
+  title
+  userId
+}
+
+input NotificationUpdateFilter {
+  and: [NotificationUpdateFilter!]
+  description: StringFieldComparison
+  id: StringFieldComparison
+  or: [NotificationUpdateFilter!]
+  title: StringFieldComparison
+  userId: StringFieldComparison
 }
 
 input NumberFieldComparison {
@@ -984,6 +1121,20 @@ type Query {
     id: ID!
   ): Inventory
   me: User!
+  notification(
+    """The id of the record to find."""
+    id: ID!
+  ): Notification
+  notifications(
+    """Specify to filter the records returned."""
+    filter: NotificationFilter! = {}
+
+    """Limit or page results."""
+    paging: OffsetPaging! = {limit: 10}
+
+    """Specify to sort results."""
+    sorting: [NotificationSort!]! = []
+  ): NotificationConnection!
   production(
     """The id of the record to find."""
     id: ID!
@@ -1094,6 +1245,14 @@ input RemoveInventoriesFromStorageInput {
 
   """The id of relation."""
   relationId: ID!
+}
+
+input RemoveNotificationsFromUserInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
 }
 
 input RemoveProductionsFromFieldInput {
@@ -1278,6 +1437,14 @@ input SetInventoriesOnStorageInput {
 
   """The id of relation."""
   relationId: ID!
+}
+
+input SetNotificationsOnUserInput {
+  """The id of the record."""
+  id: ID!
+
+  """The ids of the relations."""
+  relationIds: [ID!]!
 }
 
 input SetProductionsOnFieldInput {
@@ -1672,6 +1839,14 @@ input UpdateManyInventoriesInput {
   update: UpdateInventoryInput!
 }
 
+input UpdateManyNotificationsInput {
+  """Filter used to find fields to update"""
+  filter: NotificationUpdateFilter!
+
+  """The update to apply to all records found using the filter"""
+  update: UpdateNotification!
+}
+
 input UpdateManyProductionsInput {
   """Filter used to find fields to update"""
   filter: ProductionUpdateFilter!
@@ -1709,6 +1884,13 @@ input UpdateManyUsersInput {
   update: UpdateUserInput!
 }
 
+input UpdateNotification {
+  description: String
+  id: String
+  title: String
+  userId: String
+}
+
 input UpdateOneFieldSubscriptionFilterInput {
   """Specify to filter the records returned."""
   filter: FieldSubscriptionFilter!
@@ -1728,6 +1910,14 @@ input UpdateOneInventoryInput {
 
   """The update to apply."""
   update: UpdateInventoryInput!
+}
+
+input UpdateOneNotificationInput {
+  """The id of the record to update"""
+  id: ID!
+
+  """The update to apply."""
+  update: UpdateNotification!
 }
 
 input UpdateOneProductionInput {
@@ -1802,6 +1992,13 @@ type User {
   email: String!
   id: String!
   name: String!
+  notifications(
+    """Specify to filter the records returned."""
+    filter: NotificationFilter! = {}
+
+    """Specify to sort results."""
+    sorting: [NotificationSort!]! = []
+  ): [Notification!]!
   roles(
     """Specify to filter the records returned."""
     filter: RoleInputDTOFilter! = {}
@@ -1859,9 +2056,19 @@ input UserFilter {
   and: [UserFilter!]
   email: StringFieldComparison
   name: StringFieldComparison
+  notifications: UserFilterNotificationFilter
   or: [UserFilter!]
   roles: UserFilterRoleInputDTOFilter
   telephone: StringFieldComparison
+}
+
+input UserFilterNotificationFilter {
+  and: [UserFilterNotificationFilter!]
+  description: StringFieldComparison
+  id: StringFieldComparison
+  or: [UserFilterNotificationFilter!]
+  title: StringFieldComparison
+  userId: StringFieldComparison
 }
 
 input UserFilterRoleInputDTOFilter {
