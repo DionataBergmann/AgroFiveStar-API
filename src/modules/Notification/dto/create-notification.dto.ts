@@ -1,13 +1,13 @@
-import { Field } from "@nestjs/graphql";
+import { Field, InputType } from "@nestjs/graphql";
 
-export class CreateNotificationDto {
-  
+@InputType()
+export class CreateNotificationInput {
   @Field()
   title: string;
 
   @Field({ nullable: true })
   description: string;
 
-  @Field()
-  userId: number;
+  @Field({nullable: true})
+  userId: string;
 }

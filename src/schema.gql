@@ -70,7 +70,7 @@ input CreateManyInventoriesInput {
 
 input CreateManyNotificationsInput {
   """Array of records to create"""
-  notifications: [CreateNotification!]!
+  notifications: [CreateNotificationInput!]!
 }
 
 input CreateManyProductionsInput {
@@ -93,10 +93,9 @@ input CreateManyUsersInput {
   users: [CreateUserInput!]!
 }
 
-input CreateNotification {
+input CreateNotificationInput {
   description: String
-  id: String
-  title: String
+  title: String!
   userId: String
 }
 
@@ -112,7 +111,7 @@ input CreateOneInventoryInput {
 
 input CreateOneNotificationInput {
   """The record to create"""
-  notification: CreateNotification!
+  notification: CreateNotificationInput!
 }
 
 input CreateOneProductionInput {
@@ -1844,7 +1843,7 @@ input UpdateManyNotificationsInput {
   filter: NotificationUpdateFilter!
 
   """The update to apply to all records found using the filter"""
-  update: UpdateNotification!
+  update: UpdateNotificationInput!
 }
 
 input UpdateManyProductionsInput {
@@ -1884,9 +1883,9 @@ input UpdateManyUsersInput {
   update: UpdateUserInput!
 }
 
-input UpdateNotification {
+input UpdateNotificationInput {
   description: String
-  id: String
+  id: ID
   title: String
   userId: String
 }
@@ -1917,7 +1916,7 @@ input UpdateOneNotificationInput {
   id: ID!
 
   """The update to apply."""
-  update: UpdateNotification!
+  update: UpdateNotificationInput!
 }
 
 input UpdateOneProductionInput {
