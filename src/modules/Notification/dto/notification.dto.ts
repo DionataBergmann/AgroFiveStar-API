@@ -1,16 +1,17 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { FilterableField } from '@nestjs-query/query-graphql';
+import { ObjectType } from '@nestjs/graphql';
 
 @ObjectType('Notification')
 export class NotificationDTO {
-  @Field()
+  @FilterableField() 
   id: string;
 
-  @Field()
+  @FilterableField() 
   title: string;
 
-  @Field()
+  @FilterableField() 
   description: string;
 
-  @Field()
-  userId: string; 
+  @FilterableField() 
+  userId: string;
 }
