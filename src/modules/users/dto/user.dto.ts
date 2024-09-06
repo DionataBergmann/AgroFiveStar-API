@@ -10,7 +10,7 @@ import { RoleInputDTO } from 'src/modules/roles/dto/role.dto';
 @FilterableUnPagedRelation('roles', () => RoleInputDTO)
 @FilterableUnPagedRelation('notifications', () => NotificationDTO)
 export class UserDTO {
-  @Field()
+  @FilterableField()
   id: string;
 
   @FilterableField({ nullable: false })
