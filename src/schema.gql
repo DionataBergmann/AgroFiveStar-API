@@ -149,6 +149,7 @@ input CreateTaskInput {
   date: DateTime!
   dayOfWeek: Float
   description: String!
+  status: TaskStatus! = PENDING
   title: String!
   userName: String
 }
@@ -1651,6 +1652,7 @@ type Task {
   deletedAt: DateTime!
   description: String!
   id: String!
+  status: TaskStatus!
   title: String!
   updatedAt: DateTime!
   userName: String
@@ -1663,6 +1665,7 @@ type TaskAggregateGroupBy {
   deletedAt: DateTime
   description: String
   id: String
+  status: TaskStatus
   title: String
   updatedAt: DateTime
   userName: String
@@ -1690,6 +1693,7 @@ type TaskCountAggregate {
   deletedAt: Int
   description: Int
   id: Int
+  status: Int
   title: Int
   updatedAt: Int
   userName: Int
@@ -1704,6 +1708,7 @@ input TaskDeleteFilter {
   description: StringFieldComparison
   id: StringFieldComparison
   or: [TaskDeleteFilter!]
+  status: TaskStatusFilterComparison
   title: StringFieldComparison
   updatedAt: DateFieldComparison
   userName: StringFieldComparison
@@ -1716,6 +1721,7 @@ type TaskDeleteResponse {
   deletedAt: DateTime
   description: String
   id: String
+  status: TaskStatus
   title: String
   updatedAt: DateTime
   userName: String
@@ -1730,6 +1736,7 @@ input TaskFilter {
   description: StringFieldComparison
   id: StringFieldComparison
   or: [TaskFilter!]
+  status: TaskStatusFilterComparison
   title: StringFieldComparison
   updatedAt: DateFieldComparison
   userName: StringFieldComparison
@@ -1742,6 +1749,7 @@ type TaskMaxAggregate {
   deletedAt: DateTime
   description: String
   id: String
+  status: TaskStatus
   title: String
   updatedAt: DateTime
   userName: String
@@ -1754,6 +1762,7 @@ type TaskMinAggregate {
   deletedAt: DateTime
   description: String
   id: String
+  status: TaskStatus
   title: String
   updatedAt: DateTime
   userName: String
@@ -1772,9 +1781,32 @@ enum TaskSortFields {
   deletedAt
   description
   id
+  status
   title
   updatedAt
   userName
+}
+
+enum TaskStatus {
+  DONE
+  PENDING
+}
+
+input TaskStatusFilterComparison {
+  eq: TaskStatus
+  gt: TaskStatus
+  gte: TaskStatus
+  iLike: TaskStatus
+  in: [TaskStatus!]
+  is: Boolean
+  isNot: Boolean
+  like: TaskStatus
+  lt: TaskStatus
+  lte: TaskStatus
+  neq: TaskStatus
+  notILike: TaskStatus
+  notIn: [TaskStatus!]
+  notLike: TaskStatus
 }
 
 type TaskSumAggregate {
@@ -1790,6 +1822,7 @@ input TaskUpdateFilter {
   description: StringFieldComparison
   id: StringFieldComparison
   or: [TaskUpdateFilter!]
+  status: TaskStatusFilterComparison
   title: StringFieldComparison
   updatedAt: DateFieldComparison
   userName: StringFieldComparison
@@ -1969,6 +2002,7 @@ input UpdateTaskInput {
   dayOfWeek: Float
   description: String
   id: ID
+  status: TaskStatus
   title: String
   userName: String
 }
@@ -2011,6 +2045,7 @@ type User {
 type UserAggregateGroupBy {
   CPF: String
   email: String
+  id: String
   name: String
   telephone: String
 }
@@ -2029,6 +2064,7 @@ type UserConnection {
 type UserCountAggregate {
   CPF: Int
   email: Int
+  id: Int
   name: Int
   telephone: Int
 }
@@ -2037,6 +2073,7 @@ input UserDeleteFilter {
   CPF: StringFieldComparison
   and: [UserDeleteFilter!]
   email: StringFieldComparison
+  id: StringFieldComparison
   name: StringFieldComparison
   or: [UserDeleteFilter!]
   telephone: StringFieldComparison
@@ -2054,6 +2091,7 @@ input UserFilter {
   CPF: StringFieldComparison
   and: [UserFilter!]
   email: StringFieldComparison
+  id: StringFieldComparison
   name: StringFieldComparison
   notifications: UserFilterNotificationFilter
   or: [UserFilter!]
@@ -2079,6 +2117,7 @@ input UserFilterRoleInputDTOFilter {
 type UserMaxAggregate {
   CPF: String
   email: String
+  id: String
   name: String
   telephone: String
 }
@@ -2086,6 +2125,7 @@ type UserMaxAggregate {
 type UserMinAggregate {
   CPF: String
   email: String
+  id: String
   name: String
   telephone: String
 }
@@ -2099,6 +2139,7 @@ input UserSort {
 enum UserSortFields {
   CPF
   email
+  id
   name
   telephone
 }
@@ -2107,6 +2148,7 @@ input UserUpdateFilter {
   CPF: StringFieldComparison
   and: [UserUpdateFilter!]
   email: StringFieldComparison
+  id: StringFieldComparison
   name: StringFieldComparison
   or: [UserUpdateFilter!]
   telephone: StringFieldComparison
