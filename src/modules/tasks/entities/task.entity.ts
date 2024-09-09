@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/modules/base/entities/base.entity';
 import { Column, Entity } from 'typeorm';
+import { TaskStatus } from '../taskStatusEnum';
 
 @Entity()
 export class Task extends BaseEntity {
@@ -17,4 +18,7 @@ export class Task extends BaseEntity {
 
   @Column({ nullable: true })
   userName: string;
+
+  @Column({ type: 'enum', enum: TaskStatus, default: TaskStatus.PENDING })
+  status: TaskStatus;
 }
