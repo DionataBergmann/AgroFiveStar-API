@@ -1,4 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
+import { TaskStatus } from '../taskStatusEnum';
 
 @InputType()
 export class CreateTaskInput {
@@ -16,4 +17,7 @@ export class CreateTaskInput {
 
   @Field({ nullable: true })
   userName: string;
+
+  @Field(() => TaskStatus, { defaultValue: TaskStatus.PENDING })
+  status: TaskStatus;
 }
