@@ -151,6 +151,7 @@ input CreateTaskInput {
   description: String!
   status: TaskStatus! = PENDING
   title: String!
+  userId: String
   userName: String
 }
 
@@ -780,6 +781,7 @@ type Mutation {
   removeProductionsFromField(input: RemoveProductionsFromFieldInput!): Field!
   removeRolesFromUser(input: RemoveRolesFromUserInput!): User!
   removeStoragesFromInventory(input: RemoveStoragesFromInventoryInput!): Inventory!
+  removeUserFromTask(input: RemoveUserFromTaskInput!): Task!
   setFieldImageOnField(input: SetFieldImageOnFieldInput!): Field!
   setFieldsOnInventory(input: SetFieldsOnInventoryInput!): Inventory!
   setFieldsOnProduction(input: SetFieldsOnProductionInput!): Production!
@@ -789,6 +791,7 @@ type Mutation {
   setProductionsOnField(input: SetProductionsOnFieldInput!): Field!
   setRolesOnUser(input: SetRolesOnUserInput!): User!
   setStoragesOnInventory(input: SetStoragesOnInventoryInput!): Inventory!
+  setUserOnTask(input: SetUserOnTaskInput!): Task!
   updateManyFiles(input: UpdateManyFilesInput!): UpdateManyResponse!
   updateManyInventories(input: UpdateManyInventoriesInput!): UpdateManyResponse!
   updateManyNotifications(input: UpdateManyNotificationsInput!): UpdateManyResponse!
@@ -1279,6 +1282,14 @@ input RemoveStoragesFromInventoryInput {
   relationId: ID!
 }
 
+input RemoveUserFromTaskInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 type Role {
   createdAt: DateTime!
   deletedAt: DateTime!
@@ -1471,6 +1482,14 @@ input SetStoragesOnInventoryInput {
   relationId: ID!
 }
 
+input SetUserOnTaskInput {
+  """The id of the record."""
+  id: ID!
+
+  """The id of relation."""
+  relationId: ID!
+}
+
 """Sort Directions"""
 enum SortDirection {
   ASC
@@ -1655,6 +1674,8 @@ type Task {
   status: TaskStatus!
   title: String!
   updatedAt: DateTime!
+  user: User
+  userId: String
   userName: String
 }
 
@@ -1668,6 +1689,7 @@ type TaskAggregateGroupBy {
   status: TaskStatus
   title: String
   updatedAt: DateTime
+  userId: String
   userName: String
 }
 
@@ -1696,6 +1718,7 @@ type TaskCountAggregate {
   status: Int
   title: Int
   updatedAt: Int
+  userId: Int
   userName: Int
 }
 
@@ -1711,6 +1734,7 @@ input TaskDeleteFilter {
   status: TaskStatusFilterComparison
   title: StringFieldComparison
   updatedAt: DateFieldComparison
+  userId: StringFieldComparison
   userName: StringFieldComparison
 }
 
@@ -1724,6 +1748,7 @@ type TaskDeleteResponse {
   status: TaskStatus
   title: String
   updatedAt: DateTime
+  userId: String
   userName: String
 }
 
@@ -1739,7 +1764,19 @@ input TaskFilter {
   status: TaskStatusFilterComparison
   title: StringFieldComparison
   updatedAt: DateFieldComparison
+  user: TaskFilterUserFilter
+  userId: StringFieldComparison
   userName: StringFieldComparison
+}
+
+input TaskFilterUserFilter {
+  CPF: StringFieldComparison
+  and: [TaskFilterUserFilter!]
+  email: StringFieldComparison
+  id: StringFieldComparison
+  name: StringFieldComparison
+  or: [TaskFilterUserFilter!]
+  telephone: StringFieldComparison
 }
 
 type TaskMaxAggregate {
@@ -1752,6 +1789,7 @@ type TaskMaxAggregate {
   status: TaskStatus
   title: String
   updatedAt: DateTime
+  userId: String
   userName: String
 }
 
@@ -1765,6 +1803,7 @@ type TaskMinAggregate {
   status: TaskStatus
   title: String
   updatedAt: DateTime
+  userId: String
   userName: String
 }
 
@@ -1784,6 +1823,7 @@ enum TaskSortFields {
   status
   title
   updatedAt
+  userId
   userName
 }
 
@@ -1825,6 +1865,7 @@ input TaskUpdateFilter {
   status: TaskStatusFilterComparison
   title: StringFieldComparison
   updatedAt: DateFieldComparison
+  userId: StringFieldComparison
   userName: StringFieldComparison
 }
 
@@ -2004,6 +2045,7 @@ input UpdateTaskInput {
   id: ID
   status: TaskStatus
   title: String
+  userId: String
   userName: String
 }
 
