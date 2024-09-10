@@ -18,6 +18,9 @@ export class CreateTaskInput {
   @Field({ nullable: true })
   userName: string;
 
+  @Field({ nullable: true })
+  userId: string;
+
   @Field(() => TaskStatus, { defaultValue: TaskStatus.PENDING })
   status: TaskStatus;
 }
