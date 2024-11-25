@@ -24,7 +24,11 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+API developed with NestJS, GraphQL, PostgreSQL to meet the needs of the application's frontend, allowing farm owners and managers to monitor and organize their employees' daily activities. The API provides support for real-time task creation and management, productivity reports in different areas and crops, grain storage management, and sending notifications to users. With a robust and efficient architecture, the API offers a solid foundation for the frontend, ensuring that farm operations are managed productively and collaboratively.
+
+## Demo
+
+https://www.youtube.com/watch?v=MHcePcAXmBU
 
 ## Installation
 
